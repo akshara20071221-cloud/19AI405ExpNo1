@@ -45,69 +45,46 @@
 ## Programe
 ```
 import random
-
 class MedicinePrescribingAgent:
     def __init__(self):
-        self.location = "A"
-        self.temperature = {
-            "A": random.randint(97, 103),
-            "B": random.randint(97, 103)
+        self.rooms = {
+            "Room 1": random.uniform(97.0, 102.5),
+            "Room 2": random.uniform(97.0, 102.5)
         }
         self.performance = 0
-
-    def move_left(self):
-        if self.location == "B":
-            self.location = "A"
-
-    def move_right(self):
-        if self.location == "A":
-            self.location = "B"
-
-    def check_temperature(self):
-        temp = self.temperature[self.location]
-        print(f"Room {self.location} Temperature: {temp} F")
-
-        if temp > 98.5:
-            self.prescribe_medicine()
+        self.current_room = random.choice(list(self.rooms.keys()))
+    def sense(self):
+        """Sense current room and patient's temperature."""
+        temperature = self.rooms[self.current_room]
+        print(f"\nAgent is in {self.current_room}")
+        print(f"Patient Temperature: {temperature:.1f}°F")
+        return temperature
+    def prescribe_medicine(self, temperature):
+        """Treat patient if temperature is above 98.5°F."""
+        if temperature > 98.5:
+            print("Patient has fever.")
+            print("Medicine Prescribed.")
+            self.performance += 1
         else:
             print("Patient is healthy.")
-
-    def prescribe_medicine(self):
-        print(f"Medicine prescribed in Room {self.location}")
-        self.performance += 10
-        self.temperature[self.location] = 98.0
-
-    def perform_action(self, action):
-        if action == "left":
-            self.performance -= 1
-            self.move_left()
-        elif action == "right":
-            self.performance -= 1
-            self.move_right()
-        elif action == "check":
-            self.check_temperature()
-        else:
-            print("Invalid action")
-
-    def print_status(self):
-        print("Current Location:", self.location)
-        print("Performance Measure:", self.performance)
-        print("Patient Temperatures:", self.temperature)
-        print("-" * 40)
-
-
+            print("No medicine required.")
+    def move(self):
+        """Move to the other room."""
+        previous_room = self.current_room
+        self.current_room = "Room 2" if self.current_room == "Room 1" else "Room 1"
+        print(f"\nMoving from {previous_room} to {self.current_room}")
+        self.performance -= 1
+    def run(self):
+        print("=== Medicine Prescribing Agent ===")
+        temperature = self.sense()
+        self.prescribe_medicine(temperature)
+        self.move()
+        temperature = self.sense()
+        self.prescribe_medicine(temperature)
+        print("\nFinal Performance:", self.performance)
 agent = MedicinePrescribingAgent()
+agent.run()
 
-agent.perform_action("check")
-agent.print_status()
-
-agent.perform_action("right")
-agent.perform_action("check")
-agent.print_status()
-
-agent.perform_action("left")
-agent.perform_action("check")
-agent.print_status()
 ```
 ## Output
 
