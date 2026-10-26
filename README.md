@@ -1,6 +1,7 @@
 <h1>ExpNo 1 :Developing AI Agent with PEAS Description</h1>
-<h3>Name: Saravanan N</h3>
-<h3>Register Number/Staff Id: TSML006</h3>
+<h3>Name: Akshara K</h3>
+<h3>Register Number/Staff Id: 212225040016 / TSML006</h3>
+<h4>Date : 15/10/2026</h4>
 
 
 <h3>AIM:</h3>
@@ -40,3 +41,78 @@
 <p>Treat unhealthy patients in each room. And check for the unhealthy patients in random room</p>
 <h3>STEP 5:</h3>
 <p>Measure the performance parameters: For each treatment performance incremented, for each movement performance decremented</p>
+
+## Programe
+```
+import random
+
+class MedicinePrescribingAgent:
+    def __init__(self):
+        self.location = "A"
+        self.temperature = {
+            "A": random.randint(97, 103),
+            "B": random.randint(97, 103)
+        }
+        self.performance = 0
+
+    def move_left(self):
+        if self.location == "B":
+            self.location = "A"
+
+    def move_right(self):
+        if self.location == "A":
+            self.location = "B"
+
+    def check_temperature(self):
+        temp = self.temperature[self.location]
+        print(f"Room {self.location} Temperature: {temp} F")
+
+        if temp > 98.5:
+            self.prescribe_medicine()
+        else:
+            print("Patient is healthy.")
+
+    def prescribe_medicine(self):
+        print(f"Medicine prescribed in Room {self.location}")
+        self.performance += 10
+        self.temperature[self.location] = 98.0
+
+    def perform_action(self, action):
+        if action == "left":
+            self.performance -= 1
+            self.move_left()
+        elif action == "right":
+            self.performance -= 1
+            self.move_right()
+        elif action == "check":
+            self.check_temperature()
+        else:
+            print("Invalid action")
+
+    def print_status(self):
+        print("Current Location:", self.location)
+        print("Performance Measure:", self.performance)
+        print("Patient Temperatures:", self.temperature)
+        print("-" * 40)
+
+
+agent = MedicinePrescribingAgent()
+
+agent.perform_action("check")
+agent.print_status()
+
+agent.perform_action("right")
+agent.perform_action("check")
+agent.print_status()
+
+agent.perform_action("left")
+agent.perform_action("check")
+agent.print_status()
+```
+## Output
+
+<img width="1410" height="682" alt="Screenshot 2026-10-15 103016" src="https://github.com/user-attachments/assets/3b89ce56-4aed-4f66-be1d-5d8d9560cc1d" />
+
+
+## Result
+Thus, the Medicine Prescribing AI Agent was successfully developed using the PEAS description to identify patients with fever, prescribe medicine, and calculate the performance measure based on treatment and movement.
